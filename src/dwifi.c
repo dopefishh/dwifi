@@ -133,18 +133,10 @@ void parse_args(int argc, char** argv)
 		}
 		if(strcmp(argv[i], "-ssid") == 0)
 		{
-			if(argc>=i+2)
-			{
-				printf("i: %i\nargc: %i\n", i, argc);
-				strcpy(final.ssid, argv[i+1]);
-				if(strcmp(argv[i+2], "wpa")==0)	final.encr = wpa2;
-				else final.encr = no;				
-			}
-			else
-			{
-				printf("No encryption type given assuming an open network\n");
-				final.encr = no;
-			}
+			printf("Currently only working with protected networks...");
+			final.encr = wpa2;
+			strcpy(final.ssid, argv[i+1]);
+			
 			if(strlen(silent)>0) printf("Using manual ssid: %s\n", argv[i+1]);
 			finale = 1;
 		}
