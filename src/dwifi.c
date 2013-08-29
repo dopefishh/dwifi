@@ -117,27 +117,47 @@ void parse_args(int argc, char** argv)
 		{
 			interface = (char*)malloc(50*sizeof(char));
 			strcpy(interface, argv[i+1]);
-			if(strlen(silent)>0) printf("Using manual interface: %s\n", interface);
+			if(strlen(silent)==0) printf("Using manual interface: %s\n", interface);
 		}
 		if(strcmp(argv[i], "-d") == 0 && argc>i)
 		{
 			driver = (char*)malloc(50*sizeof(char));
 			strcpy(driver, argv[i+1]);
-			if(strlen(silent)>0) printf("Using manual driver: %s\n", driver);
+			if(strlen(silent)==0) printf("Using manual driver: %s\n", driver);
 		}
 		if(strcmp(argv[i], "-c") == 0 && argc>i)
 		{
 			configpath = (char*)malloc(50*sizeof(char));
 			strcpy(configpath, argv[i+1]);
-			if(strlen(silent)>0) printf("Using manual configpath: %s\n", configpath);
+			if(strlen(silent)==0) printf("Using manual configpath: %s\n", configpath);
 		}
 		if(strcmp(argv[i], "-ssid") == 0)
 		{
-			printf("Currently only working with protected networks...");
-			final.encr = wpa2;
 			strcpy(final.ssid, argv[i+1]);
-			
-			if(strlen(silent)>0) printf("Using manual ssid: %s\n", argv[i+1]);
+			char* ssidc;
+			char* configprefix;
+			configprefix = (char*)malloc(250*sizeof(char));
+			strcpy(configprefix, configpath);
+			ssidc = (char*)malloc(strlen(final.ssid)*sizeof(char));
+			strcpy(ssidc, final.ssid);
+			strcat(ssidc, ".conf");
+			sprintf(configprefix, "%s/%s", configprefix, ssidc);
+			FILE* is;
+			if(is = fopen(configprefix, "r"))
+			{
+				fclose(is);
+				final.encr = wpa2;
+			}	
+			else
+			{
+				final.encr = no;
+			}
+			if(strlen(silent)==0) 
+			{
+				printf("Using manual ssid: %s\n", argv[i+1]);
+				printf("Connecting to a %s network\n", final.encr == no ? "open" : "protected");
+				printf("Warning, if there is no configuration file present an unprotected network is assumed...\n");
+			}
 			finale = 1;
 		}
 		if(strcmp(argv[i], "-s") == 0)

@@ -1,10 +1,11 @@
-Version 0.3
+Version 0.4
 
 TODO
 write a daemon
 static ip's
 
-KNOWN ISSUES
+KNOWN ISSUES:
+Long names in the manual ssid can give trouble
 
 DEPENDENCIES:
 dhclient

@@ -1,0 +1,16 @@
+2013-Jun-19
+	Version 0.1:
+	First version, only manual configs and wpa2 networks.
+
+2013-Jun-23
+	Version 0.2:
+	Support for unprotected networks.
+
+2013-Jun-26
+	Version 0.3:
+	Config creater included for wpa2 networks
+
+2013-Aug-29
+	Version 0.4:
+	Manual ssid command line argument added for future daemon support
+
