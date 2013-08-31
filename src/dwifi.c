@@ -12,6 +12,7 @@ void parse_args(int argc, char** argv);
 
 /* The global variables for the software */
 char* silent = "";
+char list_only = 0;
 struct wifinet final; int finale = 0;
 char* logfile = ".essid";
 char* interface = "wlan0";
@@ -100,12 +101,13 @@ void parse_args(int argc, char** argv)
 		{
 			printf("Usage:\n\t%s [options]\n", argv[0]);
 			printf("Options:\n");
-			printf("\t-h\tthis help\n");
-			printf("\t-s \tto make the program silent(pipe to /dev/null\n");			
-			printf("\t-i x\twhere x is the interface(default: wlan0)\n");
-			printf("\t-d x\twhere x is the driver(default: wext)\n");
-			printf("\t-c x\twhere x is the config root path(default: /etc/wifi)\n");
-			printf("\t-ssid x y\twhere x is the essid and y the encryption type(open/wpa2)\n");
+			printf("\t-h        Display this help\n");
+			printf("\t-l        Only list the currently available ssids\n");
+			printf("\t-s        To make the program silent(pipe to /dev/null\n");			
+			printf("\t-i x      where x is the interface(default: wlan0)\n");
+			printf("\t-d x      where x is the driver(default: wext)\n");
+			printf("\t-c x      where x is the config root path(default: /etc/wifi)\n");
+			printf("\t-ssid x y where x is the essid and y the encryption type(open/wpa2)\n");
 			printf("\nThe config file has to match the essid for example if you want to connect to ");
 			printf("the \"eduroam\" network you have to have a config file /etc/wifi/eduroam.conf\n");
 			printf("The config file for a simple WPA2 network can be easily created by wpa_passphrase ");
@@ -131,7 +133,7 @@ void parse_args(int argc, char** argv)
 			strcpy(configpath, argv[i+1]);
 			if(strlen(silent)==0) printf("Using manual configpath: %s\n", configpath);
 		}
-		if(strcmp(argv[i], "-ssid") == 0)
+		if(strcmp(argv[i], "-ssid") == 0 && argc>i)
 		{
 			strcpy(final.ssid, argv[i+1]);
 			char* ssidc;
@@ -165,6 +167,10 @@ void parse_args(int argc, char** argv)
 			silent = (char*)malloc(15*sizeof(char));
 			strcpy(silent, " >> /dev/null");
 		}
+		if(strcmp(argv[i], "-l") == 0)
+		{
+			list_only = 1;
+		}
 	}
 }
 
@@ -191,6 +197,8 @@ int main(int argc, char* argv[])
 			exit(EXIT_SUCCESS);
 		
 		wifinets_print(networks, nlines);
+		if(list_only==1)
+			exit(EXIT_SUCCESS);
 	
 		char c;
 		printf("Please enter character corresponding to the network(X to quit): ");
