@@ -14,3 +14,7 @@
 	Version 0.4:
 	Manual ssid command line argument added for future daemon support
 
+2013-Aug-31
+	Version 0.4a:
+	List only option added for future daemon
+
