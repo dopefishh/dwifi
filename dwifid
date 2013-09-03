@@ -1,0 +1,25 @@
+#!/bin/sh
+file_path="/etc/wifi/.networks"
+config_path="/etc/wifi"
+silent=""
+interface="wlan0"
+driver="wext"
+
+echo "$$" > "/var/run/dwifid.pid"
+
+while [ 1 ]
+do
+	if [ "$(iwconfig wlan0 | grep "Link Quality" | wc -l)" -eq 0 ]
+	then
+		available=$(dwifi -l| grep dbm)
+		while read network;
+		do
+			if [ $(echo "$available" | grep $network | wc -l) -ge 1 ]
+			then
+				dwifi -ssid $network -i $interface -d $driver $silent -c $config_path
+				break
+			fi
+		done < "$file_path"
+	fi
+	sleep 5
+done
