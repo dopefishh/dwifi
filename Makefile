@@ -19,8 +19,8 @@ clean:
 install:
 		mkdir -p /etc/wifi
 		cp ./dwifi /usr/bin/dwifi
-		cp ./dwifid /usr/bin/dwifid
-		cp ./dwifid-init-d /etc/init.d/dwifid
+		cp ./src/dwifid /usr/bin/dwifid
+		cp ./src/dwifid-init-d /etc/init.d/dwifid
 		touch /etc/wifi/.networks
 		update-rc.d dwifid defaults
 
@@ -32,3 +32,6 @@ remove:
 purge:
 		rm -f /usr/bin/dwifi
 		rm -f /etc/wifi
+		rm -f /etc/init.d/dwifid
+		update-rc.d dwifid remove
+		
