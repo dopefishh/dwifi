@@ -46,8 +46,8 @@ case "$1" in
 		echo "Stopped succesfully..."
 		;;
 	restart)
-		$DAEMON stop
-		$DAEMON start
+		$0 stop
+		$0 start
 		;;
 	*)
 		echo "Usage: $SCRIPTNAME {start|stop|restart}"
