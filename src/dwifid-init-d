@@ -37,7 +37,8 @@ case "$1" in
 			echo "Service already running..."
 			exit 0
 		fi
-		nohup /usr/bin/dwifid 0<&- &>/home/mart/logfile &
+		/usr/bin/dwifid 0<&- &>/home/mart/logfile &
+		echo "Started succesfully..."
 		;;
 	stop)
 		echo "Stopping script..."
